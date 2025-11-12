@@ -14,4 +14,6 @@ ByeCtrlClick fixes exactly that:
 
 ---
 
-✨ Full control – **without unwanted inputs or actions.**  
+✨ Full control – **without unwanted inputs or actions.**
+[Clicke here for more Information](https://byectrlclick.com)
+[Download the latest version of ByeCtrlClick and check the release notes to find out what's new.](https://updates.byectrlclick.com)
