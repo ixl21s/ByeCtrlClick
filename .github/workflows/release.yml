@@ -4,12 +4,14 @@ name: Release
 # that does not have a release yet, oldest version first. The newest
 # version is marked as "Latest".
 #
-# Runs automatically when release notes are added on main, and can be
-# started by hand under Actions → Release → Run workflow.
+# Runs automatically when release notes or this workflow change on main,
+# and can be started by hand under Actions → Release → Run workflow.
 on:
   push:
     branches: [main]
-    paths: ['release-notes/**']
+    paths:
+      - 'release-notes/**'
+      - '.github/workflows/release.yml'
   workflow_dispatch:
 
 permissions:
