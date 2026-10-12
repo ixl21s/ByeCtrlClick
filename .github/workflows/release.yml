@@ -1,0 +1,47 @@
+name: Release
+
+# Creates a GitHub release (and its tag) for every file in release-notes/
+# that does not have a release yet, oldest version first. The newest
+# version is marked as "Latest".
+#
+# Runs automatically when release notes are added on main, and can be
+# started by hand under Actions → Release → Run workflow.
+on:
+  push:
+    branches: [main]
+    paths: ['release-notes/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create missing releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          newest=$(ls release-notes/v*.md | sort -V | tail -n 1)
+          for notes in $(ls release-notes/v*.md | sort -V); do
+            tag=$(basename "$notes" .md)
+            if gh release view "$tag" > /dev/null 2>&1; then
+              echo "$tag already released, skipping"
+              continue
+            fi
+            latest=false
+            [ "$notes" = "$newest" ] && latest=true
+            echo "Creating release $tag (latest: $latest)"
+            gh release create "$tag" \
+              --title "ByeCtrlClick $tag" \
+              --notes-file "$notes" \
+              --target "$GITHUB_SHA" \
+              --latest="$latest"
+          done
