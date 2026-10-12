@@ -11,6 +11,14 @@ ByeCtrlClick fixes exactly that. Lightweight, system-wide, set and forget.
 
 🇩🇪 Made in Germany · macOS only
 
+<p align="center">
+  <a href="https://byectrlclick.com/assets/Demo-Vid.mp4">
+    <img src="assets/demo.gif" alt="Control-click on the desktop: with ByeCtrlClick off a context menu opens, with it on the click stays a left-click" width="880">
+  </a>
+  <br>
+  <sub>Without ByeCtrlClick, Control + Click opens a context menu. With it, the click stays a normal left-click. <a href="https://byectrlclick.com/assets/Demo-Vid.mp4">Watch the full video</a></sub>
+</p>
+
 ---
 
 ## ✨ Why ByeCtrlClick?
@@ -36,7 +44,11 @@ ByeCtrlClick includes a full Gaming Mode that keeps your Mac focused on the game
 - **Performance Mode** – prevents system sleep, pauses Time Machine backups and reduces transparency while you play  
 - **App Manager** – add any app (e.g. Magnet) to be closed automatically when Gaming Mode starts and optionally relaunched when it ends  
 
-![New license sheet, polished Settings and the new Help window](https://updates.byectrlclick.com/assets/v1.6.0-pic1.png)
+<p align="center">
+  <img src="assets/gaming-mode.png" alt="Gaming Mode settings with apps to close and Performance Mode options" width="49%">
+  <img src="assets/metal-hud.jpg" alt="Metal Performance HUD and Custom Overlay showing FPS, CPU, GPU and RAM in a game" width="49%">
+</p>
+<p align="center"><sub>Gaming Mode settings · Metal Performance HUD and Custom Overlay in game</sub></p>
 
 ---
 
@@ -61,6 +73,12 @@ ByeCtrlClick includes a full Gaming Mode that keeps your Mac focused on the game
 4. Enter your licence key from Gumroad – done.  
 
 ByeCtrlClick lives in your menu bar: one click on the toggle pauses or re-enables blocking instantly. Updates are installed automatically through **Sparkle**.
+
+Need a hand? Press **⌘ + ?** in the app to open the built-in Help window.
+
+<p align="center">
+  <img src="assets/help.png" alt="ByeCtrlClick Help window with answers about Accessibility permission, Gaming Mode and the menu bar" width="400">
+</p>
 
 More help: [Guides](https://byectrlclick.com/guides) · [Support](https://byectrlclick.com/support) · [FAQ](https://byectrlclick.com/#faq) · [Why does macOS turn Control-click into a right-click?](https://byectrlclick.com/ctrl-click-right-click-mac)
 
