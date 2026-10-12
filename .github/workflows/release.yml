@@ -1,0 +1,33 @@
+name: Release
+
+# Creates a GitHub release when a version tag (e.g. v1.6.1) is pushed.
+# The release text is taken from release-notes/<tag>.md.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Existing tag to create the release for (e.g. v1.6.1)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          notes="release-notes/${TAG}.md"
+          if [ ! -f "$notes" ]; then
+            echo "::error::Missing release notes: $notes"
+            exit 1
+          fi
+          gh release create "$TAG" --title "ByeCtrlClick $TAG" --notes-file "$notes" --verify-tag
