@@ -1,18 +1,22 @@
 name: Release
 
-# Creates a GitHub release when a version tag (e.g. v1.6.1) is pushed.
-# The release text is taken from release-notes/<tag>.md.
+# Creates a GitHub release (and its tag) for every file in release-notes/
+# that does not have a release yet, oldest version first. The newest
+# version is marked as "Latest".
+#
+# Runs automatically when release notes are added on main, and can be
+# started by hand under Actions → Release → Run workflow.
 on:
   push:
-    tags: ['v*']
+    branches: [main]
+    paths: ['release-notes/**']
   workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Existing tag to create the release for (e.g. v1.6.1)'
-        required: true
 
 permissions:
   contents: write
+
+concurrency:
+  group: release
 
 jobs:
   release:
@@ -20,14 +24,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create GitHub release
+      - name: Create missing releases
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ inputs.tag || github.ref_name }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          notes="release-notes/${TAG}.md"
-          if [ ! -f "$notes" ]; then
-            echo "::error::Missing release notes: $notes"
-            exit 1
-          fi
-          gh release create "$TAG" --title "ByeCtrlClick $TAG" --notes-file "$notes" --verify-tag
+          newest=$(ls release-notes/v*.md | sort -V | tail -n 1)
+          for notes in $(ls release-notes/v*.md | sort -V); do
+            tag=$(basename "$notes" .md)
+            if gh release view "$tag" > /dev/null 2>&1; then
+              echo "$tag already released, skipping"
+              continue
+            fi
+            latest=false
+            [ "$notes" = "$newest" ] && latest=true
+            echo "Creating release $tag (latest: $latest)"
+            gh release create "$tag" \
+              --title "ByeCtrlClick $tag" \
+              --notes-file "$notes" \
+              --target "$GITHUB_SHA" \
+              --latest="$latest"
+          done
